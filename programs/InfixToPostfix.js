@@ -1,11 +1,11 @@
 var Stack = require('../ds/Stack');
 const operators = ['^','*','/','+','-'];
+const precedence = {
+  '^': 3, '*': 2, '/': 2, '+': 1, '-': 1
+};
 
 const infixToPostFix = function(expression){
   let result = '';
-  const precedence = {
-    '^': 3, '*': 2, '/': 2, '+': 1, '-': 1
-  };
   let s1 = new Stack()
   for(let item of expression){
     if(operators.includes(item)){
@@ -26,6 +26,7 @@ const infixToPostFix = function(expression){
       while(s1.peek() !== "("){
         result += s1.pop();
       }
+      s1.pop();
     }
     else{
       result += item;
@@ -37,8 +38,4 @@ const infixToPostFix = function(expression){
   return result;
 };
 
-const InfixtoPostfix = {
-  infixToPostFix
-};
-
-module.exports = InfixtoPostfix;
+module.exports = infixToPostFix;
