@@ -11,7 +11,19 @@ class SinglyLinkedList{
     this.lastNode = null;
   }
 
-  add(data){
+  addAtStart(data){
+    let node = new Node(data);
+    if(this.head){
+      node.next = this.head;
+      this.head = node;
+    }
+    else{
+      this.head = node;
+      this.lastNode = node;
+    }
+  }
+
+  addAtEnd(data){
     let node = new Node(data);
     if(this.lastNode){
       this.lastNode.next = node;
@@ -23,16 +35,32 @@ class SinglyLinkedList{
     }
   }
 
-  addAtStart(data){
-    let node = new Node(data);
-    if(this.head){
-      node.next = this.head;
-      this.head = node;
+  removeFromStart(){
+    if(!this.head){
+      console.log('Empty List');
+      return null;
     }
-    else{
-      this.head = node;
-      this.lastNode = node;
+    let node = this.head;
+    this.head = node.next;
+    node.next = null;
+    return node.data;
+  }
+
+  removeFromEnd(currentNode=this.head){
+    if(!currentNode){
+      console.log('Empty List');
+      return null;
     }
+    let nextNode = currentNode.next;
+    if(!nextNode){
+      this.head = null;
+      return currentNode.data;
+    }
+    if(!nextNode.next){
+      currentNode.next = null;
+      return nextNode.data;
+    }
+    return this.removeFromEnd(currentNode.next);
   }
 
   removeData(data){

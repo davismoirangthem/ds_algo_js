@@ -1,10 +1,14 @@
+// let SinglyLinkedList = require('./SinglyLinkedList');
+let DoublyLinkedList = require('./DoublyLinkedList');
+
 class Stack{
   constructor(){
-    this.stack = [];
+    // this.list = new SinglyLinkedList();
+    this.list = new DoublyLinkedList();
   }
 
   push(item){
-    this.stack.push(item);
+    this.list.addAtStart(item);
     return true;
   }
 
@@ -13,24 +17,19 @@ class Stack{
       console.log('Stack Empty');
       return null;
     }
-    return this.stack.pop();
+    return this.list.removeFromStart();
   }
 
   peek(){
-    if(this.isEmpty()){
-      return null;
-    }
-    return this.stack[this.stack.length - 1];
+    return this.list.getDataAtIndex(0);
   }
 
   isEmpty(){
-    return this.stack.length === 0;
+    return this.list.getSize() === 0;
   }
 
   printStack(){
-    for(let item of this.stack){
-      console.log(item);
-    }
+    this.list.printList();
   }
 }
 
