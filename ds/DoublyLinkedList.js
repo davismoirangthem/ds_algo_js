@@ -77,6 +77,19 @@ class DoublyLinkedList{
     return false;
   }
 
+  findAndRemoveAll(key,currentNode=this.head){
+    if(!currentNode){
+      return true;
+    }
+    let cursor = currentNode.next;
+    if(key === currentNode.data){
+      currentNode.prev.next = cursor;
+      cursor.prev = currentNode.prev;
+      currentNode = null;
+    }
+    return this.findAndRemoveAll(key,cursor)
+  }
+
   search(data,currentNode=this.head){
     if(!currentNode){
       return false;
@@ -99,6 +112,49 @@ class DoublyLinkedList{
       console.log(currentNode.data);
       currentNode = currentNode.prev;
     }
+  }
+
+  reverse(currentNode=this.head){
+    if(!currentNode){
+      return currentNode;
+    }
+    let tempNode = null;
+    while(currentNode){
+      tempNode = currentNode.prev;
+      currentNode.prev = currentNode.next;
+      currentNode.next = tempNode;
+      currentNode = currentNode.prev;
+    }
+    this.head = tempNode.prev;
+  }
+
+  findPair(sum,forwardNode=this.head,backwardNode=this.lastNode){
+    if(forwardNode === backwardNode){
+      return null;
+    }
+    if(forwardNode.data + backwardNode.data < sum){
+      return this.findPair(sum,forwardNode.next,backwardNode);
+    }
+    else if(forwardNode.data + backwardNode.data > sum){
+      return this.findPair(sum,forwardNode,backwardNode.prev);
+    }
+    else if(forwardNode.data + backwardNode.data === sum){
+      console.log(`(${forwardNode.data},${backwardNode.data})`);
+      return this.findPair(sum,forwardNode.next,backwardNode);
+    }
+  }
+
+  removeDuplicate(currentNode=this.head){
+    if(!currentNode || !currentNode.next){
+      return null;
+    }
+    let nextPointer = currentNode.next;
+    while(currentNode.data === nextPointer.data){
+      nextPointer = nextPointer.next;
+    }
+    currentNode.next = nextPointer;
+    nextPointer.prev = currentNode;
+    return this.removeDuplicate(currentNode.next);
   }
 
   getSize(currentNode=this.head,counter=0){
